@@ -1,6 +1,6 @@
 .idea/
 bin/
-src/test/java/org/strassburger/tui4j/TestMain.java
+src/test/java/org/strassburger/colorlab4j/org.strassburger.colorlab4j.TestMain.java
 
 # Created by https://www.toptal.com/developers/gitignore/api/intellij+all,maven,java,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=intellij+all,maven,java,visualstudiocode
