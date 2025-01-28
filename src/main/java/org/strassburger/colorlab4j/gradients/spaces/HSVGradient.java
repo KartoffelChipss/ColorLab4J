@@ -7,44 +7,64 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HSVGradient extends Gradient<HSVColor> {
+    public HSVGradient(List<HSVColor> colors) {
+        super(colors);
+    }
+
     public HSVGradient(HSVColor start, HSVColor end) {
         super(start, end);
     }
 
+    public HSVGradient(HSVColor... colors) {
+        super(colors);
+    }
+
     @Override
     public List<HSVColor> getColors(int steps, boolean includeStartAndEnd) {
-        List<HSVColor> colors = new ArrayList<>();
+        List<HSVColor> gradientColors = new ArrayList<>();
 
-        if (includeStartAndEnd) colors.add(start);
+        if (includeStartAndEnd) {
+            gradientColors.add(colors.get(0));
+        }
 
-        double sDelta = (end.getSaturation() - start.getSaturation()) / (steps + 1);
-        double vDelta = (end.getValue() - start.getValue()) / (steps + 1);
+        int segmentSteps = steps / (colors.size() - 1);
 
-        double startHue = start.getHue();
-        double endHue = end.getHue();
-        double hueDelta;
-        if (Math.abs(endHue - startHue) > 180) {
-            if (endHue > startHue) {
-                startHue += 360;
-            } else {
-                endHue += 360;
+        for (int i = 0; i < colors.size() - 1; i++) {
+            HSVColor startColor = colors.get(i);
+            HSVColor endColor = colors.get(i + 1);
+
+            double sDelta = (endColor.getSaturation() - startColor.getSaturation()) / (segmentSteps + 1);
+            double vDelta = (endColor.getValue() - startColor.getValue()) / (segmentSteps + 1);
+
+            double startHue = startColor.getHue();
+            double endHue = endColor.getHue();
+            double hueDelta;
+
+            if (Math.abs(endHue - startHue) > 180) {
+                if (endHue > startHue) {
+                    startHue += 360;
+                } else {
+                    endHue += 360;
+                }
+            }
+            hueDelta = (endHue - startHue) / (segmentSteps + 1);
+
+            double h = startHue;
+            double s = startColor.getSaturation();
+            double v = startColor.getValue();
+
+            for (int j = 1; j <= segmentSteps; j++) {
+                h += hueDelta;
+                s += sDelta;
+                v += vDelta;
+                gradientColors.add(new HSVColor(h % 360, s, v));
             }
         }
-        hueDelta = (endHue - startHue) / (steps + 1);
 
-        double h = startHue;
-        double s = start.getSaturation();
-        double v = start.getValue();
-
-        for (int i = 1; i <= steps; i++) {
-            h += hueDelta;
-            s += sDelta;
-            v += vDelta;
-            colors.add(new HSVColor(h % 360, s, v));
+        if (includeStartAndEnd) {
+            gradientColors.add(colors.get(colors.size() - 1));
         }
 
-        if (includeStartAndEnd) colors.add(end);
-
-        return colors;
+        return gradientColors;
     }
 }

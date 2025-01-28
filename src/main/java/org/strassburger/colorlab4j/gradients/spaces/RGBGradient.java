@@ -7,33 +7,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RGBGradient extends Gradient<RGBColor> {
+    public RGBGradient(List<RGBColor> colors) {
+        super(colors);
+    }
+
     public RGBGradient(RGBColor start, RGBColor end) {
         super(start, end);
     }
 
+    public RGBGradient(RGBColor... colors) {
+        super(colors);
+    }
+
     @Override
     public List<RGBColor> getColors(int steps, boolean includeStartAndEnd) {
-        List<RGBColor> colors = new ArrayList<>();
+        List<RGBColor> gradientColors = new ArrayList<>();
 
-        if (includeStartAndEnd) colors.add(start);
-
-        int rDelta = (end.getRed() - start.getRed()) / (steps + 1);
-        int gDelta = (end.getGreen() - start.getGreen()) / (steps + 1);
-        int bDelta = (end.getBlue() - start.getBlue()) / (steps + 1);
-
-        int r = start.getRed();
-        int g = start.getGreen();
-        int b = start.getBlue();
-
-        for (int i = 0; i < steps; i++) {
-            r += rDelta;
-            g += gDelta;
-            b += bDelta;
-            colors.add(new RGBColor(r, g, b));
+        if (includeStartAndEnd) {
+            gradientColors.add(colors.get(0));
         }
 
-        if (includeStartAndEnd) colors.add(end);
+        int segmentSteps = steps / (colors.size() - 1);
 
-        return colors;
+        for (int i = 0; i < colors.size() - 1; i++) {
+            RGBColor startColor = colors.get(i);
+            RGBColor endColor = colors.get(i + 1);
+
+            int rDelta = (endColor.getRed() - startColor.getRed()) / (segmentSteps + 1);
+            int gDelta = (endColor.getGreen() - startColor.getGreen()) / (segmentSteps + 1);
+            int bDelta = (endColor.getBlue() - startColor.getBlue()) / (segmentSteps + 1);
+
+            int r = startColor.getRed();
+            int g = startColor.getGreen();
+            int b = startColor.getBlue();
+
+            for (int j = 0; j < segmentSteps; j++) {
+                r += rDelta;
+                g += gDelta;
+                b += bDelta;
+                gradientColors.add(new RGBColor(r, g, b));
+            }
+        }
+
+        if (includeStartAndEnd) {
+            gradientColors.add(colors.get(colors.size() - 1));
+        }
+
+        return gradientColors;
     }
 }

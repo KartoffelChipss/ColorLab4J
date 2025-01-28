@@ -5,8 +5,18 @@ import org.strassburger.colorlab4j.color.Color;
 import java.util.List;
 
 public abstract class Gradient<T extends Color> {
-    public final T start;
-    public final T end;
+    public final List<T> colors;
+
+    /**
+     * Create a new gradient
+     * @param colors The list of colors that define the gradient
+     */
+    public Gradient(List<T> colors) {
+        if (colors == null || colors.size() < 2) {
+            throw new IllegalArgumentException("At least two colors are required for the gradient.");
+        }
+        this.colors = colors;
+    }
 
     /**
      * Create a new gradient
@@ -14,25 +24,16 @@ public abstract class Gradient<T extends Color> {
      * @param end The end color
      */
     public Gradient(T start, T end) {
-        if (start == null || end == null) throw new IllegalArgumentException("Start and end color must not be null");
-        this.start = start;
-        this.end = end;
+        this.colors = List.of(start, end);
     }
 
     /**
-     * Get the start color
-     * @return The start color
+     * Create a new gradient
+     * @param colors The colors that define the gradient
      */
-    public T getStart() {
-        return start;
-    }
-
-    /**
-     * Get the end color
-     * @return The end color
-     */
-    public T getEnd() {
-        return end;
+    @SafeVarargs
+    public Gradient(T... colors) {
+        this.colors = List.of(colors);
     }
 
     /**
