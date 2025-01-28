@@ -85,4 +85,14 @@ public class HSVColor extends Color {
     public String toString() {
         return String.format("hsv(%f, %f, %f)", getHue(), getSaturation(), getValue());
     }
+
+    /**
+     * Get the HSV representation of a color from a hex string
+     * @param hex Hex representation of the color (e.g. "#ff0000")
+     * @return HSV representation of the color
+     * @throws IllegalArgumentException If the HEX code is invalid
+     */
+    public static HSVColor fromHex(String hex) throws IllegalArgumentException {
+        return RGBColor.fromHex(hex).toHSV();
+    }
 }

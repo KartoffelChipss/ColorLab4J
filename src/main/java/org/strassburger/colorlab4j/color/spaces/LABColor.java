@@ -85,4 +85,14 @@ public class LABColor extends Color {
     public String toString() {
         return String.format("lab(%f, %f, %f)", getL(), getA(), getB());
     }
+
+    /**
+     * Get the LAB representation of a color from a hex string
+     * @param hex Hex representation of the color (e.g. "#ff0000")
+     * @return LAB representation of the color
+     * @throws IllegalArgumentException If the HEX code is invalid
+     */
+    public static LABColor fromHex(String hex) throws IllegalArgumentException {
+        return RGBColor.fromHex(hex).toLAB();
+    }
 }

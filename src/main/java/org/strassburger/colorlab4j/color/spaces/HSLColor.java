@@ -75,14 +75,24 @@ public class HSLColor extends Color {
     public XYZColor toXYZ() {
         return ColorConverter.RGBtoXYZ(toRGB());
     }
+
     @Override
     public String toCssString() {
         return String.format("hsl(%f, %f%%, %f%%)", getHue(), getSaturation() * 100, getLightness() * 100);
     }
 
-
     @Override
     public String toString() {
         return String.format("hsl(%f, %f, %f)", getHue(), getSaturation(), getLightness());
+    }
+
+    /**
+     * Get the HSL representation of a color from a hex string
+     * @param hex Hex representation of the color (e.g. "#ff0000")
+     * @return HSL representation of the color
+     * @throws IllegalArgumentException If the HEX code is invalid
+     */
+    public static HSLColor fromHex(String hex) throws IllegalArgumentException {
+        return RGBColor.fromHex(hex).toHSL();
     }
 }

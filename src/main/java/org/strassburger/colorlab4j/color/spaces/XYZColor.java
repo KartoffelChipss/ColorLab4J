@@ -85,4 +85,14 @@ public class XYZColor extends Color {
     public String toString() {
         return String.format("xyz(%f, %f, %f)", getX(), getY(), getZ());
     }
+
+    /**
+     * Get the XYZ representation of a color from a hex string
+     * @param hex Hex representation of the color (e.g. "#ff0000")
+     * @return XYZ representation of the color
+     * @throws IllegalArgumentException If the HEX code is invalid
+     */
+    public static XYZColor fromHex(String hex) throws IllegalArgumentException {
+        return RGBColor.fromHex(hex).toXYZ();
+    }
 }
