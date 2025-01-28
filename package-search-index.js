@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.strassburger.colorlab4j.color"},{"l":"org.strassburger.colorlab4j.color.spaces"},{"l":"org.strassburger.colorlab4j.gradients"},{"l":"org.strassburger.colorlab4j.gradients.spaces"}];updateSearchResults();
