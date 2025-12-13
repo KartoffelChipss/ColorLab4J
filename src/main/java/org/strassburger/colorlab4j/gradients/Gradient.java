@@ -63,4 +63,23 @@ public abstract class Gradient<T extends Color> {
             System.out.print(color.toAnsi() + "|");
         }
     }
+
+    @Override
+    public int hashCode() {
+        return colors.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Gradient<?> gradient)) return false;
+        return colors.equals(gradient.colors);
+    }
+
+    @Override
+    public String toString() {
+        return "Gradient{" +
+                "colors=" + colors +
+                '}';
+    }
 }
