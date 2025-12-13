@@ -3,6 +3,8 @@ package org.strassburger.colorlab4j.color.spaces;
 import org.strassburger.colorlab4j.color.Color;
 import org.strassburger.colorlab4j.color.ColorConverter;
 
+import java.util.Objects;
+
 /**
  * Represents a color in the LAB (CIELAB) color space
  * @see <a href="https://en.wikipedia.org/wiki/CIELAB_color_space">CIELAB color space</a>
@@ -84,6 +86,20 @@ public class LABColor extends Color {
     @Override
     public String toString() {
         return String.format("lab(%f, %f, %f)", getL(), getA(), getB());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(l, a, b);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return obj instanceof LABColor other &&
+                Double.compare(other.l, l) == 0 &&
+                Double.compare(other.a, a) == 0 &&
+                Double.compare(other.b, b) == 0;
     }
 
     /**

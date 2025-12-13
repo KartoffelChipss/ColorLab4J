@@ -3,6 +3,8 @@ package org.strassburger.colorlab4j.color.spaces;
 import org.strassburger.colorlab4j.color.Color;
 import org.strassburger.colorlab4j.color.ColorConverter;
 
+import java.util.Objects;
+
 /**
  * Represents a color in the HSV color space
  * @see <a href="https://en.wikipedia.org/wiki/HSL_and_HSV">HSV color space</a>
@@ -84,6 +86,20 @@ public class HSVColor extends Color {
     @Override
     public String toString() {
         return String.format("hsv(%f, %f, %f)", getHue(), getSaturation(), getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(h, s, v);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return obj instanceof HSVColor other &&
+                Double.compare(h, other.h) == 0 &&
+                Double.compare(s, other.s) == 0 &&
+                Double.compare(v, other.v) == 0;
     }
 
     /**

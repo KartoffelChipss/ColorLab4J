@@ -3,6 +3,8 @@ package org.strassburger.colorlab4j.color.spaces;
 import org.strassburger.colorlab4j.color.Color;
 import org.strassburger.colorlab4j.color.ColorConverter;
 
+import java.util.Objects;
+
 /**
  * Represents a color in the RGB color space
  * @see <a href="https://en.wikipedia.org/wiki/RGB_color_space">RGB color space</a>
@@ -117,5 +119,19 @@ public class RGBColor extends Color {
     @Override
     public String toString() {
         return String.format("rgb(%d,%d,%d)", getRed(), getGreen(), getBlue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(r, g, b);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return obj instanceof RGBColor other &&
+                this.r == other.r &&
+                this.g == other.g &&
+                this.b == other.b;
     }
 }

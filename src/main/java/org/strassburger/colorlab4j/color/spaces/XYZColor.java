@@ -3,6 +3,8 @@ package org.strassburger.colorlab4j.color.spaces;
 import org.strassburger.colorlab4j.color.Color;
 import org.strassburger.colorlab4j.color.ColorConverter;
 
+import java.util.Objects;
+
 /**
  * Represents a color in the XYZ color space
  * @see <a href="https://en.wikipedia.org/wiki/CIE_1931_color_space">XYZ color space</a>
@@ -84,6 +86,20 @@ public class XYZColor extends Color {
     @Override
     public String toString() {
         return String.format("xyz(%f, %f, %f)", getX(), getY(), getZ());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y, z);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return obj instanceof XYZColor other &&
+                Double.compare(this.x, other.x) == 0 &&
+                Double.compare(this.y, other.y) == 0 &&
+                Double.compare(this.z, other.z) == 0;
     }
 
     /**
