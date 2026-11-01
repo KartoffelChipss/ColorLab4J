@@ -1,8 +1,7 @@
 # ColorLab4J
 
 ![maven build and test](https://github.com/KartoffelChipss/ColorLab4J/actions/workflows/maven-build-and-test.yml/badge.svg)
-[![Release](https://jitpack.io/v/KartoffelChipss/ColorLab4J.svg)](https://jitpack.io/#KartoffelChipss/ColorLab4J)
-![Monthly download statistics](https://jitpack.io/v/KartoffelChipss/ColorLab4J/month.svg)
+[![Maven](https://maven.strassburger.org/api/badge/org.strassburger/ColorLab4J)](https://maven.strassburger.org/browse/org/strassburger/ColorLab4J)
 
 ColorLab4J is a Java-based library for creating and managing colors and gradients.
 
