@@ -28,7 +28,7 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Publish with Maven Wrapper
-        run: ./mvnw -B javadoc:jar deploy -DaltDeploymentRepository=smr::${{ vars.SMR_URL }}
+        run: ./mvnw -B -Prelease javadoc:jar deploy -DaltDeploymentRepository=smr::${{ vars.SMR_URL }}
         env:
           SMR_USERNAME: ${{ secrets.SMR_USERNAME }}
           SMR_TOKEN: ${{ secrets.SMR_TOKEN }}
