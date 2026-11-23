@@ -7,7 +7,7 @@ ColorLab4J is a Java-based library for creating and managing colors and gradient
 
 ## Installation
 
-Make sure to replace `0.0.0` with the version you want to use. (You can find the latest version [here](https://jitpack.io/#KartoffelChipss/ColorLab4J))
+Make sure to replace `0.0.0` with the version you want to use. (You can find the latest version [here](https://maven.strassburger.org/browse/releases/org/strassburger/ColorLab4J))
 
 ### Maven
 
@@ -42,7 +42,7 @@ repositories {
 
 ## API Documentation
 
-You can find the API documentation [here](https://colorlab4j.j4n.net/).
+You can find the API documentation [here](https://colorlab4j.strassburger.org/).
 
 ## License
 
