@@ -2,6 +2,7 @@ package org.strassburger.colorlab4j.color.spaces;
 
 import org.strassburger.colorlab4j.color.Color;
 import org.strassburger.colorlab4j.color.ColorConverter;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -116,7 +117,7 @@ public class XYZColor extends Color {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) return true;
         return obj instanceof XYZColor other &&
                 Double.compare(this.x, other.x) == 0 &&

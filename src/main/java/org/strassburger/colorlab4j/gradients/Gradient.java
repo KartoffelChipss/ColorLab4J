@@ -1,10 +1,10 @@
 package org.strassburger.colorlab4j.gradients;
 
+import org.jspecify.annotations.Nullable;
 import org.strassburger.colorlab4j.color.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -232,7 +232,7 @@ public abstract class Gradient<T extends Color> {
         return parsed;
     }
 
-    private static <T> List<T> validateColors(List<T> colors) {
+    private static <T> List<T> validateColors(@Nullable List<T> colors) {
         if (colors == null || colors.size() < 2) {
             throw new IllegalArgumentException("At least two colors are required for the gradient.");
         }
@@ -250,7 +250,7 @@ public abstract class Gradient<T extends Color> {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof Gradient<?> gradient)) return false;
         return colors.equals(gradient.colors);

@@ -33,6 +33,7 @@ public class GradientValidationTest {
     // --- Constructors ---
 
     @Test
+    @SuppressWarnings("NullAway") // passes null on purpose to test the runtime null check
     public void listConstructorRejectsNull() {
         assertThrows(IllegalArgumentException.class, () -> new RGBGradient((List<RGBColor>) null));
     }
@@ -47,16 +48,18 @@ public class GradientValidationTest {
     public void listConstructorRejectsNullElement() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
                 () -> new RGBGradient(Arrays.asList(RED, null, BLUE)));
-        assertTrue(e.getMessage().contains("index 1"), e.getMessage());
+        assertTrue(String.valueOf(e.getMessage()).contains("index 1"), e.getMessage());
     }
 
     @Test
+    @SuppressWarnings("NullAway") // passes null on purpose to test the runtime null check
     public void twoColorConstructorRejectsNulls() {
         assertThrows(IllegalArgumentException.class, () -> new RGBGradient(null, BLUE));
         assertThrows(IllegalArgumentException.class, () -> new RGBGradient(RED, null));
     }
 
     @Test
+    @SuppressWarnings("NullAway") // passes null on purpose to test the runtime null check
     public void varargsConstructorRejectsTooFewColors() {
         assertThrows(IllegalArgumentException.class, () -> new RGBGradient());
         assertThrows(IllegalArgumentException.class, () -> new RGBGradient(new RGBColor[]{RED}));
@@ -64,6 +67,7 @@ public class GradientValidationTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway") // passes null on purpose to test the runtime null check
     public void varargsConstructorRejectsNullElement() {
         assertThrows(IllegalArgumentException.class, () -> new RGBGradient(RED, BLUE, null));
     }
@@ -136,6 +140,7 @@ public class GradientValidationTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("hexFactories")
+    @SuppressWarnings("NullAway") // passes null on purpose to test the runtime null check
     public void fromHexRejectsTooFewCodes(String name, Function<String[], Gradient<?>> factory) {
         assertThrows(IllegalArgumentException.class, () -> factory.apply(null));
         assertThrows(IllegalArgumentException.class, () -> factory.apply(new String[]{}));
@@ -147,7 +152,7 @@ public class GradientValidationTest {
     public void fromHexRejectsInvalidCodeAndNamesItsIndex(String name, Function<String[], Gradient<?>> factory) {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
                 () -> factory.apply(new String[]{"#ff0000", "#0000ff", "#nope"}));
-        assertTrue(e.getMessage().contains("index 2"), e.getMessage());
+        assertTrue(String.valueOf(e.getMessage()).contains("index 2"), e.getMessage());
     }
 
     @ParameterizedTest(name = "{0}")

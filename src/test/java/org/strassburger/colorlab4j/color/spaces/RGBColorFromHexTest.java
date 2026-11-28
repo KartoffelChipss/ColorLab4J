@@ -59,6 +59,7 @@ public class RGBColorFromHexTest {
     }
 
     @Test
+    @SuppressWarnings("NullAway") // passes null on purpose to test the runtime null check
     public void rejectsNull() {
         assertThrows(IllegalArgumentException.class, () -> RGBColor.fromHex(null));
     }
