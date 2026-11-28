@@ -3,6 +3,7 @@ package org.strassburger.colorlab4j.color.spaces;
 import org.strassburger.colorlab4j.color.Color;
 import org.strassburger.colorlab4j.color.ColorConverter;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -92,7 +93,7 @@ public class XYZColor extends Color {
 
     @Override
     public String toString() {
-        return String.format("xyz(%f, %f, %f)", getX(), getY(), getZ());
+        return String.format(Locale.ROOT, "xyz(%f, %f, %f)", getX(), getY(), getZ());
     }
 
     @Override

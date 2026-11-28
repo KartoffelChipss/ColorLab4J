@@ -3,6 +3,7 @@ package org.strassburger.colorlab4j.color.spaces;
 import org.strassburger.colorlab4j.color.Color;
 import org.strassburger.colorlab4j.color.ColorConverter;
 
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -89,7 +90,7 @@ public class HSVColor extends Color {
 
     @Override
     public String toString() {
-        return String.format("hsv(%f, %f, %f)", getHue(), getSaturation(), getValue());
+        return String.format(Locale.ROOT, "hsv(%f, %f, %f)", getHue(), getSaturation(), getValue());
     }
 
     @Override

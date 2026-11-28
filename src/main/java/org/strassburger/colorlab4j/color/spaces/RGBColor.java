@@ -3,6 +3,7 @@ package org.strassburger.colorlab4j.color.spaces;
 import org.strassburger.colorlab4j.color.Color;
 import org.strassburger.colorlab4j.color.ColorConverter;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
@@ -87,7 +88,7 @@ public class RGBColor extends Color {
      */
     @Override
     public String toHex() {
-        return String.format("#%02x%02x%02x", getRed(), getGreen(), getBlue());
+        return String.format(Locale.ROOT, "#%02x%02x%02x", getRed(), getGreen(), getBlue());
     }
 
     @Override
@@ -117,12 +118,12 @@ public class RGBColor extends Color {
 
     @Override
     public String toAnsi() {
-        return String.format("\u001B[38;2;%d;%d;%dm", getRed(), getGreen(), getBlue());
+        return String.format(Locale.ROOT, "\u001B[38;2;%d;%d;%dm", getRed(), getGreen(), getBlue());
     }
 
     @Override
     public String toAnsiBackground() {
-        return String.format("\u001B[48;2;%d;%d;%dm", getRed(), getGreen(), getBlue());
+        return String.format(Locale.ROOT, "\u001B[48;2;%d;%d;%dm", getRed(), getGreen(), getBlue());
     }
 
     /**
@@ -135,7 +136,7 @@ public class RGBColor extends Color {
 
     @Override
     public String toString() {
-        return String.format("rgb(%d,%d,%d)", getRed(), getGreen(), getBlue());
+        return String.format(Locale.ROOT, "rgb(%d,%d,%d)", getRed(), getGreen(), getBlue());
     }
 
     @Override
