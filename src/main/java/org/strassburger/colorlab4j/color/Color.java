@@ -141,10 +141,10 @@ public abstract class Color {
     }
 
     /**
-     * Create an XYZ color
-     * @param x X component
-     * @param y Y component
-     * @param z Z component
+     * Create an XYZ color (D65, 0-1 scale; sRGB white is 0.95047, 1.0, 1.08883)
+     * @param x X component, typically 0.0-0.95047
+     * @param y Y component (relative luminance), typically 0.0-1.0
+     * @param z Z component, typically 0.0-1.08883
      * @return XYZColor instance
      */
     public static XYZColor xyz(double x, double y, double z) {

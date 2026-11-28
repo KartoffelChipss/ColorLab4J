@@ -7,7 +7,19 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * Represents a color in the XYZ color space
+ * Represents a color in the CIE 1931 XYZ color space, relative to the D65 white point.
+ * <p>
+ * Values use the <b>0-1 scale</b>, where Y is relative luminance: black is (0, 0, 0) and
+ * sRGB white is (0.95047, 1.0, 1.08883). All colors converted from sRGB fall within that box.
+ * This is the same scale CSS uses for {@code color(xyz-d65 ...)}.
+ * <p>
+ * Note that some libraries use a 0-100 scale instead (white = 95.047, 100, 108.883).
+ * To use such values here, divide them by 100.
+ * <p>
+ * The constructor only rejects negative values and values above 95.047, 100 and 108.883.
+ * These upper limits are deliberately loose: values above the white point are accepted,
+ * and conversions to other color spaces clamp them.
+ *
  * @see <a href="https://en.wikipedia.org/wiki/CIE_1931_color_space">XYZ color space</a>
  */
 public class XYZColor extends Color {
@@ -16,10 +28,11 @@ public class XYZColor extends Color {
     private final double z;
 
     /**
-     * @param x X value (0.0-95.047)
-     * @param y Y value (0.0-100.0)
-     * @param z Z value (0.0-108.883)
-     * @throws IllegalArgumentException If any of the values are out of range
+     * Create an XYZ color. Values use the 0-1 scale, see {@link XYZColor}.
+     * @param x X value, typically 0.0-0.95047 (must be 0.0-95.047)
+     * @param y Y value (relative luminance), typically 0.0-1.0 (must be 0.0-100.0)
+     * @param z Z value, typically 0.0-1.08883 (must be 0.0-108.883)
+     * @throws IllegalArgumentException If any value is negative or above its upper limit
      */
     public XYZColor(double x, double y, double z) throws IllegalArgumentException {
         if (x < 0 || x > 95.047) throw new IllegalArgumentException("X value must be between 0.0 and 95.047");
@@ -31,24 +44,25 @@ public class XYZColor extends Color {
     }
 
     /**
-     * Get the X value of the color (Long-wavelength sensitive cones) (0.0-95.047)
-     * @return X value
+     * Get the X value of the color. X is a mix of the cone responses that is non-negative
+     * everywhere; it has no direct perceptual meaning.
+     * @return X value, typically 0.0-0.95047 (0.95047 for sRGB white)
      */
     public double getX() {
         return x;
     }
 
     /**
-     * Get the Y value of the color (Luminance) (0.0-100.0)
-     * @return Y value
+     * Get the Y value of the color, which is its relative luminance.
+     * @return Y value, typically 0.0-1.0 (1.0 for sRGB white)
      */
     public double getY() {
         return y;
     }
 
     /**
-     * Get the Z value of the color (Short-wavelength sensitive cones) (0.0-108.883)
-     * @return Z value
+     * Get the Z value of the color, which roughly follows the short-wavelength (blue) cone response.
+     * @return Z value, typically 0.0-1.08883 (1.08883 for sRGB white)
      */
     public double getZ() {
         return z;
