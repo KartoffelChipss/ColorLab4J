@@ -78,9 +78,13 @@ public class HSVColor extends Color {
         return ColorConverter.RGBtoXYZ(toRGB());
     }
 
+    /**
+     * CSS has no hsv() function, so this returns the equivalent CSS hsl() function.
+     * @return CSS hsl() function, e.g. "hsl(0, 100%, 50%)" for hsv(0, 1, 1)
+     */
     @Override
     public String toCssString() {
-        return String.format("hsv(%f, %f%%, %f%%)", getHue(), getSaturation() * 100, getValue() * 100);
+        return toHSL().toCssString();
     }
 
     @Override

@@ -2,6 +2,9 @@ package org.strassburger.colorlab4j.color;
 
 import org.strassburger.colorlab4j.color.spaces.*;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * Abstract representation of a color.
  * Provides methods to convert between different color spaces.
@@ -63,10 +66,25 @@ public abstract class Color {
     }
 
     /**
-     * Get the CSS representation of the color
+     * Get the CSS representation of the color.
+     * The output is valid CSS and does not depend on the default locale: decimals always use a dot,
+     * and numbers are rounded to at most 4 decimal places with trailing zeros removed.
      * @return CSS representation of the color
      */
     public abstract String toCssString();
+
+    /**
+     * Format a number for CSS: locale-independent, at most 4 decimal places, no trailing zeros,
+     * and no exponent notation (e.g. {@code 50.0 -> "50"}, {@code 0.41245641 -> "0.4125"}).
+     * @param value The number to format
+     * @return The formatted number
+     */
+    protected static String formatCssNumber(double value) {
+        return BigDecimal.valueOf(value)
+                .setScale(4, RoundingMode.HALF_UP)
+                .stripTrailingZeros()
+                .toPlainString();
+    }
 
     /**
      * Get the color from a hex string

@@ -78,9 +78,14 @@ public class HSLColor extends Color {
         return ColorConverter.RGBtoXYZ(toRGB());
     }
 
+    /**
+     * @return CSS hsl() function, e.g. "hsl(120, 50%, 25%)"
+     */
     @Override
     public String toCssString() {
-        return String.format("hsl(%f, %f%%, %f%%)", getHue(), getSaturation() * 100, getLightness() * 100);
+        return "hsl(" + formatCssNumber(getHue()) + ", "
+                + formatCssNumber(getSaturation() * 100) + "%, "
+                + formatCssNumber(getLightness() * 100) + "%)";
     }
 
     @Override

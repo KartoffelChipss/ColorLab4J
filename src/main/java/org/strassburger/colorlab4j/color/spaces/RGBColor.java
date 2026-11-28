@@ -125,9 +125,12 @@ public class RGBColor extends Color {
         return String.format("\u001B[48;2;%d;%d;%dm", getRed(), getGreen(), getBlue());
     }
 
+    /**
+     * @return CSS rgb() function, e.g. "rgb(255,0,0)"
+     */
     @Override
     public String toCssString() {
-        return toString();
+        return "rgb(" + getRed() + "," + getGreen() + "," + getBlue() + ")";
     }
 
     @Override

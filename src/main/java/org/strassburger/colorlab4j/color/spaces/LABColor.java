@@ -78,9 +78,15 @@ public class LABColor extends Color {
         return ColorConverter.LABtoXYZ(this);
     }
 
+    /**
+     * CSS lab() only accepts space-separated values.
+     * @return CSS lab() function, e.g. "lab(53.2408 80.0925 67.2032)"
+     */
     @Override
     public String toCssString() {
-        return String.format("lab(%f, %f, %f)", getL(), getA(), getB());
+        return "lab(" + formatCssNumber(getL()) + " "
+                + formatCssNumber(getA()) + " "
+                + formatCssNumber(getB()) + ")";
     }
 
     @Override

@@ -78,9 +78,16 @@ public class XYZColor extends Color {
         return this;
     }
 
+    /**
+     * CSS has no xyz() function; XYZ colors are written with color() and the D65 XYZ space,
+     * which uses the same 0-1 scale as this library.
+     * @return CSS color() function, e.g. "color(xyz-d65 0.4125 0.2127 0.0193)"
+     */
     @Override
     public String toCssString() {
-        return String.format("xyz(%f, %f, %f)", getX(), getY(), getZ());
+        return "color(xyz-d65 " + formatCssNumber(getX()) + " "
+                + formatCssNumber(getY()) + " "
+                + formatCssNumber(getZ()) + ")";
     }
 
     @Override
