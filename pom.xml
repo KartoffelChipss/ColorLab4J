@@ -6,7 +6,7 @@
 
     <groupId>org.strassburger</groupId>
     <artifactId>ColorLab4J</artifactId>
-    <version>1.0.5</version>
+    <version>1.1.0</version>
 
     <packaging>jar</packaging>
 
