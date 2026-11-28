@@ -19,6 +19,16 @@ public class HSLGradient extends Gradient<HSLColor> {
         super(colors);
     }
 
+    /**
+     * Create a gradient from HEX color codes, interpolated in the HSL color space
+     * @param hexCodes The HEX color codes, at least two (e.g. "#ff0000", "#00f")
+     * @return HSLGradient instance
+     * @throws IllegalArgumentException If fewer than two codes are given or any code is null or invalid
+     */
+    public static HSLGradient fromHex(String... hexCodes) {
+        return new HSLGradient(parseHexCodes(hexCodes, HSLColor::fromHex));
+    }
+
     private double interpolateHue(double startHue, double endHue, double factor) {
         double diff = endHue - startHue;
         if (Math.abs(diff) > 180) {
@@ -33,6 +43,7 @@ public class HSLGradient extends Gradient<HSLColor> {
 
     @Override
     public List<HSLColor> getColors(int steps, boolean includeStartAndEnd) {
+        validateSteps(steps);
         List<HSLColor> gradientColors = new ArrayList<>();
 
         if (includeStartAndEnd) {

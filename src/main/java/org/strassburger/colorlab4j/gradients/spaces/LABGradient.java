@@ -19,8 +19,19 @@ public class LABGradient extends Gradient<LABColor> {
         super(colors);
     }
 
+    /**
+     * Create a gradient from HEX color codes, interpolated in the LAB color space
+     * @param hexCodes The HEX color codes, at least two (e.g. "#ff0000", "#00f")
+     * @return LABGradient instance
+     * @throws IllegalArgumentException If fewer than two codes are given or any code is null or invalid
+     */
+    public static LABGradient fromHex(String... hexCodes) {
+        return new LABGradient(parseHexCodes(hexCodes, LABColor::fromHex));
+    }
+
     @Override
     public List<LABColor> getColors(int steps, boolean includeStartAndEnd) {
+        validateSteps(steps);
         List<LABColor> gradientColors = new ArrayList<>();
 
         if (includeStartAndEnd) {

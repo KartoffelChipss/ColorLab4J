@@ -19,8 +19,19 @@ public class XYZGradient extends Gradient<XYZColor> {
         super(colors);
     }
 
+    /**
+     * Create a gradient from HEX color codes, interpolated in the XYZ color space
+     * @param hexCodes The HEX color codes, at least two (e.g. "#ff0000", "#00f")
+     * @return XYZGradient instance
+     * @throws IllegalArgumentException If fewer than two codes are given or any code is null or invalid
+     */
+    public static XYZGradient fromHex(String... hexCodes) {
+        return new XYZGradient(parseHexCodes(hexCodes, XYZColor::fromHex));
+    }
+
     @Override
     public List<XYZColor> getColors(int steps, boolean includeStartAndEnd) {
+        validateSteps(steps);
         List<XYZColor> gradientColors = new ArrayList<>();
 
         if (includeStartAndEnd) {

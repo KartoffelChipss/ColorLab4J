@@ -19,8 +19,19 @@ public class RGBGradient extends Gradient<RGBColor> {
         super(colors);
     }
 
+    /**
+     * Create a gradient from HEX color codes, interpolated in the RGB color space
+     * @param hexCodes The HEX color codes, at least two (e.g. "#ff0000", "#00f")
+     * @return RGBGradient instance
+     * @throws IllegalArgumentException If fewer than two codes are given or any code is null or invalid
+     */
+    public static RGBGradient fromHex(String... hexCodes) {
+        return new RGBGradient(parseHexCodes(hexCodes, RGBColor::fromHex));
+    }
+
     @Override
     public List<RGBColor> getColors(int steps, boolean includeStartAndEnd) {
+        validateSteps(steps);
         List<RGBColor> gradientColors = new ArrayList<>();
 
         if (includeStartAndEnd) {
