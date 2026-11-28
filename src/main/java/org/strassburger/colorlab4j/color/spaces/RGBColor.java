@@ -4,12 +4,15 @@ import org.strassburger.colorlab4j.color.Color;
 import org.strassburger.colorlab4j.color.ColorConverter;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * Represents a color in the RGB color space
  * @see <a href="https://en.wikipedia.org/wiki/RGB_color_space">RGB color space</a>
  */
 public class RGBColor extends Color {
+    private static final Pattern HEX_PATTERN = Pattern.compile("[0-9a-fA-F]{3}|[0-9a-fA-F]{6}");
+
     private final int r;
     private final int g;
     private final int b;
@@ -54,13 +57,24 @@ public class RGBColor extends Color {
 
     /**
      * Get an instance of RGBColor from a HEX color code
-     * @param hex HEX color code (e.g. "#ff0000")
+     * @param hex HEX color code with an optional leading "#", either 6 digits (e.g. "#ff0000")
+     *            or the 3-digit shorthand (e.g. "#f00")
      * @return RGBColor instance
-     * @throws IllegalArgumentException If the HEX code is invalid
+     * @throws IllegalArgumentException If the HEX code is null or invalid
      */
     public static RGBColor fromHex(String hex) throws IllegalArgumentException {
-        hex = hex.toLowerCase().trim();
-        if (hex.startsWith("#")) hex = hex.substring(1);
+        if (hex == null) throw new IllegalArgumentException("HEX code must not be null");
+        String digits = hex.trim();
+        if (digits.startsWith("#")) digits = digits.substring(1);
+        if (!HEX_PATTERN.matcher(digits).matches()) {
+            throw new IllegalArgumentException("Invalid HEX code: \"" + hex + "\" (expected #rrggbb or #rgb)");
+        }
+        if (digits.length() == 3) {
+            digits = "" + digits.charAt(0) + digits.charAt(0)
+                    + digits.charAt(1) + digits.charAt(1)
+                    + digits.charAt(2) + digits.charAt(2);
+        }
+        hex = digits;
         int r = Integer.parseInt(hex.substring(0, 2), 16);
         int g = Integer.parseInt(hex.substring(2, 4), 16);
         int b = Integer.parseInt(hex.substring(4, 6), 16);
