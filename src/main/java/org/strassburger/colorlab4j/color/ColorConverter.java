@@ -4,6 +4,26 @@ import org.strassburger.colorlab4j.color.spaces.*;
 
 public class ColorConverter {
 
+    /** Map a hue in [0, 360] to [0, 360), so 360° is treated as 0° (red). */
+    private static double normalizeHue(double hue) {
+        double h = hue % 360;
+        return h < 0 ? h + 360 : h;
+    }
+
+    /** Round a 0-255 channel value to the nearest integer, absorbing floating-point overshoot. */
+    private static int toChannel(double value) {
+        return (int) Math.max(0, Math.min(255, Math.round(value)));
+    }
+
+    /** Clamp a fraction to [0, 1], absorbing floating-point overshoot. */
+    private static double clamp01(double value) {
+        return Math.max(0, Math.min(1, value));
+    }
+
+    private static double clamp(double value, double min, double max) {
+        return Math.max(min, Math.min(max, value));
+    }
+
     public static HSLColor RGBtoHSL(RGBColor rgb) {
         // Formula from https://www.rapidtables.com/convert/color/rgb-to-hsl.html
 
@@ -31,7 +51,7 @@ public class ColorConverter {
 
         double saturation = (chroma == 0) ? 0 : chroma / (1 - Math.abs(2 * lightness - 1));
 
-        return new HSLColor(hue, saturation, lightness);
+        return new HSLColor(hue, clamp01(saturation), clamp01(lightness));
     }
 
     public static HSVColor RGBtoHSV(RGBColor rgb) {
@@ -61,7 +81,7 @@ public class ColorConverter {
 
         double saturation = (max == 0) ? 0 : chroma / max;
 
-        return new HSVColor(hue, saturation, max);
+        return new HSVColor(hue, clamp01(saturation), clamp01(max));
     }
 
     public static LABColor RGBtoLAB(RGBColor rgb) {
@@ -88,7 +108,7 @@ public class ColorConverter {
     }
 
     public static RGBColor HSLtoRGB(HSLColor hsl) {
-        double h = hsl.getHue();
+        double h = normalizeHue(hsl.getHue());
         double s = hsl.getSaturation();
         double l = hsl.getLightness();
 
@@ -129,11 +149,11 @@ public class ColorConverter {
         g = (g + m) * 255;
         b = (b + m) * 255;
 
-        return new RGBColor((int) r, (int) g, (int) b);
+        return new RGBColor(toChannel(r), toChannel(g), toChannel(b));
     }
 
     public static RGBColor HSVtoRGB(HSVColor hsv) {
-        double h = hsv.getHue();
+        double h = normalizeHue(hsv.getHue());
         double s = hsv.getSaturation();
         double v = hsv.getValue();
 
@@ -174,7 +194,7 @@ public class ColorConverter {
         g = (g + m) * 255;
         b = (b + m) * 255;
 
-        return new RGBColor((int) r, (int) g, (int) b);
+        return new RGBColor(toChannel(r), toChannel(g), toChannel(b));
     }
 
     public static RGBColor LABtoRGB(LABColor lab) {
@@ -183,9 +203,11 @@ public class ColorConverter {
     }
 
     public static RGBColor XYZtoRGB(XYZColor xyz) {
-        double x = xyz.getX() / 0.95047;
+        // The sRGB matrix works on absolute XYZ (D65 white = 0.95047, 1.0, 1.08883),
+        // so the values must not be normalized by the white point here.
+        double x = xyz.getX();
         double y = xyz.getY();
-        double z = xyz.getZ() / 1.08883;
+        double z = xyz.getZ();
 
         // Inverse of the transformation matrix
         double rLinear = 3.2404542 * x - 1.5371385 * y - 0.4985314 * z;
@@ -217,7 +239,7 @@ public class ColorConverter {
         double l = (2 - s) * v / 2;
         double newS = (l == 0 || l == 1) ? 0 : (v - l) / Math.min(l, 1 - l);
 
-        return new HSLColor(h, newS, l);
+        return new HSLColor(h, clamp01(newS), clamp01(l));
     }
 
     public static HSVColor HSLtoHSV(HSLColor hsl) {
@@ -228,7 +250,7 @@ public class ColorConverter {
         double v = l + s * Math.min(l, 1 - l);
         double newS = (v == 0) ? 0 : 2 * (v - l) / v;
 
-        return new HSVColor(h, newS, v);
+        return new HSVColor(h, clamp01(newS), clamp01(v));
     }
 
     public static LABColor XYZtoLAB(XYZColor xyz) {
@@ -246,7 +268,7 @@ public class ColorConverter {
         double a = 500.0 * (fx - fy);
         double b = 200.0 * (fy - fz);
 
-        return new LABColor(L, a, b);
+        return new LABColor(clamp(L, 0, 100), clamp(a, -128, 128), clamp(b, -128, 128));
     }
 
     public static XYZColor LABtoXYZ(LABColor lab) {
@@ -262,7 +284,7 @@ public class ColorConverter {
         Y *= 1.00000;
         Z *= 1.08883;
 
-        return new XYZColor(X, Y, Z);
+        return new XYZColor(Math.max(0, X), Math.max(0, Y), Math.max(0, Z));
     }
 
     public static HSLColor LABtoHSL(LABColor lab) {
