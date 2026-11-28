@@ -3,7 +3,6 @@ package org.strassburger.colorlab4j.gradients.spaces;
 import org.strassburger.colorlab4j.color.spaces.XYZColor;
 import org.strassburger.colorlab4j.gradients.Gradient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class XYZGradient extends Gradient<XYZColor> {
@@ -30,40 +29,11 @@ public class XYZGradient extends Gradient<XYZColor> {
     }
 
     @Override
-    public List<XYZColor> getColors(int steps, boolean includeStartAndEnd) {
-        validateSteps(steps);
-        List<XYZColor> gradientColors = new ArrayList<>();
-
-        if (includeStartAndEnd) {
-            gradientColors.add(colors.get(0));
-        }
-
-        int segmentSteps = steps / (colors.size() - 1);
-
-        for (int i = 0; i < colors.size() - 1; i++) {
-            XYZColor startColor = colors.get(i);
-            XYZColor endColor = colors.get(i + 1);
-
-            double xDelta = (endColor.getX() - startColor.getX()) / (segmentSteps + 1);
-            double yDelta = (endColor.getY() - startColor.getY()) / (segmentSteps + 1);
-            double zDelta = (endColor.getZ() - startColor.getZ()) / (segmentSteps + 1);
-
-            double x = startColor.getX();
-            double y = startColor.getY();
-            double z = startColor.getZ();
-
-            for (int j = 1; j <= segmentSteps; j++) {
-                x += xDelta;
-                y += yDelta;
-                z += zDelta;
-                gradientColors.add(new XYZColor(x, y, z));
-            }
-        }
-
-        if (includeStartAndEnd) {
-            gradientColors.add(colors.get(colors.size() - 1));
-        }
-
-        return gradientColors;
+    protected XYZColor interpolate(XYZColor start, XYZColor end, double factor) {
+        return new XYZColor(
+                lerp(start.getX(), end.getX(), factor, 0, 95.047),
+                lerp(start.getY(), end.getY(), factor, 0, 100.0),
+                lerp(start.getZ(), end.getZ(), factor, 0, 108.883)
+        );
     }
 }
